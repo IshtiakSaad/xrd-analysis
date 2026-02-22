@@ -40,102 +40,124 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Custom CSS — clean academic look ──────────────────────────────
-st.markdown("""
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+# ── Custom CSS — sleek dark academic look ────────────────────────────
+def inject_custom_css():
+    # Force sleek Dark theme for the UI
+    bg_main   = "#0E1117"
+    bg_sec    = "#1E1E1E"
+    text_main = "#E0E0E0"
+    text_muted= "#999999"
+    accent    = "#FF4B4B"
+    border    = "#333333"
+    card_shadow = "0 4px 20px rgba(0,0,0,0.3)"
+    
+    css = f"""
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  html, body, [class*="css"] {
-    font-family: 'EB Garamond', Georgia, serif;
-  }
-  h1 { font-size: 2.2rem !important; font-weight: 600; letter-spacing: -0.02em; }
-  h2 { font-size: 1.4rem !important; font-weight: 600; border-bottom: 1px solid var(--divider-color, #e0e0e0); padding-bottom: 0.4rem; margin-top: 2rem; }
-  h3 { font-size: 1.15rem !important; font-weight: 600; margin-top: 1.5rem; }
+      /* Global resets */
+      html, body, [data-testid="stAppViewContainer"] {{
+        font-family: 'Outfit', sans-serif;
+        background-color: {bg_main};
+        color: {text_main};
+      }}
+      
+      /* Typography */
+      h1, h2, h3 {{ font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }}
+      h1 {{ font-size: 2.8rem !important; font-weight: 600; margin-bottom: 2rem !important; color: {text_main}; }}
+      h2 {{ font-size: 1.6rem !important; font-weight: 500; border-bottom: 2px solid {accent}33; padding-bottom: 0.5rem; margin-top: 2.5rem !important; color: {text_main}; }}
+      
+      /* Academic text styles */
+      p, li {{ font-size: 1.1rem; line-height: 1.6; }}
 
-  /* Sidebar */
-  section[data-testid="stSidebar"] { 
-    background: var(--secondary-background-color); 
-    border-right: 1px solid var(--divider-color); 
-  }
-  section[data-testid="stSidebar"] .block-container { padding-top: 2rem; }
+      /* Sidebar Refinement */
+      section[data-testid="stSidebar"] {{ 
+        background-color: {bg_sec} !important; 
+        border-right: 1px solid {border}; 
+        box-shadow: 10px 0 30px rgba(0,0,0,0.02);
+      }}
+      
+      /* Card-like components */
+      div[data-testid="metric-container"] {{
+        background-color: {bg_sec} !important;
+        border: 1px solid {border};
+        border-radius: 16px;
+        padding: 1.2rem;
+        box-shadow: {card_shadow};
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }}
+      div[data-testid="metric-container"]:hover {{
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        border-color: {accent}55;
+      }}
+      
+      div[data-testid="stMetricValue"] {{
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600;
+        color: {accent} !important;
+      }}
 
-  /* Metric cards */
-  div[data-testid="metric-container"] {
-    background: var(--secondary-background-color);
-    border: 1px solid var(--divider-color);
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  div[data-testid="metric-container"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-    border-color: var(--primary-color);
-  }
-  div[data-testid="metric-container"] label { font-size: 0.85rem !important; color: var(--text-color); opacity: 0.7; }
-  div[data-testid="metric-container"] div[data-testid="stMetricValue"] {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.4rem !important;
-    font-weight: 500;
-    color: var(--text-color);
-  }
+      /* File Uploader styling */
+      div[data-testid="stFileUploader"] {{
+        border: 2px dashed {border};
+        background-color: {bg_sec};
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+      }}
+      div[data-testid="stFileUploader"]:hover {{
+        border-color: {accent};
+        background-color: {accent}05;
+      }}
 
-  /* File uploader */
-  div[data-testid="stFileUploader"] {
-    border: 1.5px dashed var(--divider-color);
-    border-radius: 12px;
-    padding: 1rem;
-    background: var(--secondary-background-color);
-    transition: border-color 0.3s ease;
-  }
-  div[data-testid="stFileUploader"]:hover { border-color: var(--primary-color); }
+      /* Tab Styling */
+      button[data-baseweb="tab"] {{
+        font-family: 'Outfit', sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        color: {text_muted};
+        transition: all 0.2s ease;
+      }}
+      button[data-baseweb="tab"][aria-selected="true"] {{
+        color: {accent} !important;
+        border-bottom-color: {accent} !important;
+      }}
+      
+      /* Expander Styling */
+      div[data-testid="stExpander"] {{
+        border: 1px solid {border};
+        border-radius: 12px;
+        background-color: {bg_sec} !important;
+        margin-bottom: 1rem;
+      }}
 
-  /* Tabs */
-  button[data-baseweb="tab"] { font-family: 'EB Garamond', serif; font-size: 1.05rem; font-weight: 500; }
+      /* Button Styling */
+      .stButton > button {{
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        transition: all 0.2s ease;
+      }}
+      
+      /* Figure Captions */
+      .fig-caption {{
+        font-family: 'EB Garamond', serif;
+        font-size: 1rem;
+        color: {text_muted};
+        text-align: center;
+        margin: 1rem 0 3rem 0;
+        font-style: italic;
+      }}
 
-  /* Download button */
-  div.stDownloadButton > button {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-family: 'EB Garamond', serif;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.6rem 1.5rem;
-    width: 100%;
-    transition: all 0.2s ease;
-  }
-  div.stDownloadButton > button:hover { 
-    opacity: 0.9;
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
+      /* Hide scientific notation in metrics if any */
+      small {{ color: {text_muted}; }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
 
-  /* Info boxes */
-  div[data-testid="stInfo"], div[data-testid="stWarning"], div[data-testid="stSuccess"] {
-    border-radius: 8px;
-    border: none;
-    border-left: 4px solid;
-  }
 
-  /* Dataframe */
-  div[data-testid="stDataFrame"] { border: 1px solid var(--divider-color); border-radius: 8px; }
 
-  /* Figure captions */
-  .fig-caption {
-    font-size: 0.9rem;
-    color: var(--text-color);
-    opacity: 0.75;
-    text-align: center;
-    margin-top: 0.2rem;
-    margin-bottom: 2rem;
-    font-style: italic;
-    font-family: 'EB Garamond', serif;
-  }
-</style>
-""", unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════════════════════════
@@ -227,6 +249,7 @@ def load_peak_shift_csv(uploaded) -> dict | None:
 # ══════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("## ⚛ XRD Analysis")
+    st.markdown("#### Developed by Ishtiak Saad at RUET")
     st.markdown("---")
 
     mode = st.radio(
@@ -244,15 +267,7 @@ with st.sidebar:
     K   = st.number_input("Scherrer constant K", value=0.9, format="%.2f",
                           min_value=0.1, max_value=2.0)
 
-    st.markdown("---")
-    st.markdown("### Style")
-    theme_opt = st.selectbox(
-        "Plot theme",
-        ["Light", "Dark"],
-        index=1 if st.get_option("theme.base") == "dark" else 0,
-        help="Light = white background (publication). Dark = screen viewing."
-    )
-    is_dark = (theme_opt == "Dark")
+    inject_custom_css()
 
     # ── Advanced parameters (collapsed) ─────────────────────────
     with st.expander("⚙ Advanced parameters", expanded=False):
@@ -412,7 +427,8 @@ if mode == "Single Sample":
 
     with tab1:
         try:
-            f1 = fig_xrd_pattern(two_theta, intensity, y_aa, fit_results, aa_window, is_dark=is_dark)
+            # Figure uses white background for publication
+            f1 = fig_xrd_pattern(two_theta, intensity, y_aa, fit_results, aa_window, is_dark=False)
             st.pyplot(f1, use_container_width=False)
             caption("Fig. 1 — Smoothed XRD pattern with fitted peak positions labelled.")
             plt.close(f1)
@@ -422,7 +438,7 @@ if mode == "Single Sample":
     if tab2 is not None:
         with tab2:
             try:
-                f2 = fig_williamson_hall(fit_results, wh, is_dark=is_dark)
+                f2 = fig_williamson_hall(fit_results, wh, is_dark=False)
                 st.pyplot(f2, use_container_width=False)
                 caption("Fig. 2 — Williamson–Hall plot. "
                         "Slope → micro-strain ε; intercept → Kλ/D.")
@@ -432,7 +448,7 @@ if mode == "Single Sample":
 
     with tab3:
         try:
-            f3 = fig_stokes_wilson(fit_results, eps_SW_list, eps_SW, is_dark=is_dark)
+            f3 = fig_stokes_wilson(fit_results, eps_SW_list, eps_SW, is_dark=False)
             st.pyplot(f3, use_container_width=False)
             caption("Fig. 3 — Stokes–Wilson micro-strain per peak (upper bound).")
             plt.close(f3)
@@ -443,7 +459,7 @@ if mode == "Single Sample":
         with tab4:
             try:
                 f4 = fig_combined(two_theta, intensity, y_aa, fit_results,
-                                  wh, eps_SW_list, eps_SW, aa_window, is_dark=is_dark)
+                                  wh, eps_SW_list, eps_SW, aa_window, is_dark=False)
                 st.pyplot(f4, use_container_width=True)
                 caption("Fig. 4 — Combined three-panel figure (full journal-page width).")
                 plt.close(f4)
@@ -597,9 +613,10 @@ else:
     st.markdown("## Peak Shift Figure")
     try:
         with st.spinner("Generating figure…"):
+            # Force white background for publication plot
             f_ps = fig_peak_shift(records, ref_idx=ref_idx,
                                   zoom_margin=zoom_margin,
-                                  stack_frac=stack_frac, is_dark=is_dark)
+                                  stack_frac=stack_frac, is_dark=False)
 
         st.pyplot(f_ps, use_container_width=True)
         st.markdown(

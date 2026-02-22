@@ -1,12 +1,12 @@
-[theme]
-primaryColor = "#FF4B4B"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F0F2F6"
-textColor = "#262730"
-font = "serif"
-
 [server]
 headless = true
 enableCORS = false
 enableXsrfProtection = false
 maxUploadSize = 5
+
+[theme]
+base = "dark"
+primaryColor = "#FF4B4B"
+# We remove fixed colors to allow Streamlit to override based on 'base'
+# and system preferences.
+font = "serif"
