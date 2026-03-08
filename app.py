@@ -14,7 +14,7 @@ import zipfile
 st.set_page_config(
     page_title="MaterialsIQ",
     page_icon="🔬",
-    layout="wide"
+    layout="centered"
 )
 
 inject_custom_css()
@@ -53,7 +53,7 @@ if "XRD" in analysis_type:
     st.caption("Upload a file with two columns: 2θ (degrees) and Intensity. The file may have any header — only the first two columns are used.")
 
     if mode == "Single Sample":
-        uploaded = st.file_uploader("Drop your file here", type=["csv", "txt", "raw"])
+        uploaded = st.file_uploader("Drop your file here", type=["csv"])
         
         if uploaded:
             params = {
