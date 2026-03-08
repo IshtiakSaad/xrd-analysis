@@ -12,7 +12,7 @@ import zipfile
 
 # ── PAGE CONFIG ──────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Scientific Analysis Platform",
+    page_title="MaterialsIQ",
     page_icon="🔬",
     layout="wide"
 )
@@ -21,8 +21,9 @@ inject_custom_css()
 
 # ── SIDEBAR ROUTING ──────────────────────────────────────────────
 with st.sidebar:
-    st.title("🔬 LabPro Analysis")
-    st.caption("v2.0 • Professional Edition")
+    st.title("🔬MaterialsIQ")
+    st.caption("v2.0 • Pro Edition • Developed by Ishtiak Saad at RUET")
+
     
     analysis_type = st.radio(
         "Select Technique",
@@ -168,4 +169,4 @@ if "XRD" in analysis_type:
         elif multi_files:
             st.info("Upload at least 2 files to enable comparison.")
 else:
-    st.warning("This module is currently in development. Please select XRD to continue.")
+    st.warning("This Feature is currently in development. Please select XRD to continue.")
