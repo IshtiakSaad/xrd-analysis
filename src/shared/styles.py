@@ -41,8 +41,8 @@ def inject_custom_css():
       div[data-testid="metric-container"] {{
         background-color: {bg_sec} !important;
         border: 1px solid {border};
-        border-radius: 16px;
-        padding: 1.2rem;
+        border-radius: 12px;
+        padding: 0.8rem;
         box-shadow: {card_shadow};
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       }}
@@ -54,8 +54,13 @@ def inject_custom_css():
       
       div[data-testid="stMetricValue"] {{
         font-family: 'JetBrains Mono', monospace;
+        font-size: 1.25rem !important;
         font-weight: 600;
         color: {accent} !important;
+      }}
+      
+      div[data-testid="stMetricLabel"] p {{
+        font-size: 0.85rem !important;
       }}
 
       /* File Uploader styling */
